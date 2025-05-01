@@ -1,0 +1,29 @@
+{
+    "name": "your-vendor/php-crud-api",
+    "description": "Vanilla PHP CRUD API with mysqli, PSR-4, strict types",
+    "type": "project",
+    "require": {
+      "php": ">=8.0"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^9.6",
+      "phpstan/phpstan": "^1.10",
+      "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+      "psr-4": {
+        "App\\": "src/"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Tests\\": "tests/"
+      }
+    },
+    "scripts": {
+      "test": "phpunit --colors=always",
+      "analyse": "phpstan analyse src --level=7",
+      "cs-check": "phpcs --standard=PSR12 src"
+    }
+  }
+  
