@@ -1,0 +1,48 @@
+name: CI Pipeline
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+
+jobs:
+    build-test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-verion: ['8.2']
+        
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Cache Composer dependencies
+              uses: actions/cache@v3
+              with:
+                path: vendor
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                restore-keys: ${{ runner.os}}-composer-
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: ${{ matrix.php-verion}}
+                extensions: mbstring, mysqli. curl
+
+            - name: Install Composer dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            - name: Validate composer.json
+              run: composer validate --strict
+
+            - name: coding style check (PHPCS)
+              run: vendor/bin/phpcs --standart=PSR12 src
+
+            - name: Run tests (PHPUnit)
+              run: vendor/bin/phpunit --configuration phpunit.xml --colors-always
+
+            
+
+
+
