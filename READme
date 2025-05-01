@@ -1,0 +1,104 @@
+# Learn PHP REST API
+
+This project is a simple REST API built in PHP for managing products. It connects to a MySQL database using the `mysqli` extension and supports basic CRUD operations. The API responds with JSON data and demonstrates a clean separation between controllers, models, and core utilities.
+
+## Features
+
+- **CRUD Endpoints for Products**: Create, read, update, and delete products.
+- **JSON Responses**: All responses are returned in JSON format using a dedicated `Response` class ([`src/Core/Response.php`]).
+- **Database Abstraction**: Uses a simple `Database` class to manage MySQL connections ([`src/Core/Database.php`]).
+- **Routing**: Basic routing in [public/index.php] based on HTTP methods and URL segments.
+- **.htaccess Support**: URL rewriting is set up in [public/.htaccess] for clean URLs.
+
+## Prerequisites
+
+- PHP 7.4 or later
+- MySQL/MariaDB
+- A web server (Apache is recommended, configured with URL rewriting)
+
+## Installation
+
+1. **Clone the Repository**
+
+   ```sh
+   git clone https://github.com/GoWritey/PHP-vanilla-API.git
+   cd PHP-vanilla-API
+   ```
+
+2. **Configure the Database**
+
+   Update the database configuration in [config.php](g:/wamp64/www/learn/config.php):
+
+   ```php
+   // filepath: g:\wamp64\www\learn\config.php
+   <?php
+   declare(strict_types=1);
+
+   define('DB_HOST', 'localhost');
+   define('DB', 'sales_api');
+   define('DB_USER', 'root');
+   define('DB_PASS', '');
+   ```
+
+3. **Set Up the Database**
+
+   Create a database (e.g., `sales_api`) and a table `products` with appropriate fields. For example:
+
+   ```sql
+   CREATE TABLE products (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       name VARCHAR(255) NOT NULL,
+       price DECIMAL(10, 2) NOT NULL
+   );
+   ```
+
+4. **Deploy**
+
+   Place the project in your web server's document root or configure your virtual hosts to point to the [`public`](g:/wamp64/www/learn/public) directory.
+
+## Usage
+
+The API is accessible via the following endpoints:
+
+- **GET /products**  
+  Retrieve a list of all products.
+
+- **GET /products/{id}**  
+  Retrieve a single product by its ID.
+
+- **POST /products**  
+  Create a new product.  
+  **Request Body Example:**
+  ```json
+  {
+      "name": "New Product",
+      "price": 99.99
+  }
+  ```
+
+- **PUT /products/{id}**  
+  Update an existing product.  
+  **Request Body Example:**
+  ```json
+  {
+      "name": "Updated Product",
+      "price": 89.99
+  }
+  ```
+
+- **DELETE /products/{id}**  
+  Delete a product by its ID.
+
+All endpoints return proper HTTP status codes and JSON responses using the `Response::json` method.
+
+## Author
+
+Developed and maintained by [Dieudonne Uwurukundo](https://github.com/GoWritey). Contributions and feedback are welcome.
+
+## License
+
+This project is open source and available under the MIT License.
+
+---
+
+Happy coding!
